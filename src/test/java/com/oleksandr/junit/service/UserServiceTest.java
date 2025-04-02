@@ -1,6 +1,7 @@
 package com.oleksandr.junit.service;
 
 import com.oleksandr.junit.dto.User;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,13 +25,18 @@ class UserServiceTest {
     }
     @Test
     void userSizeIfUserAdded() {
-        
+
         System.out.println("Test2: " + this);
         userService.add(new User());
         userService.add(new User());
         var users = userService.getAll();
 
         assertEquals(2, users.size());
+    }
+
+    @AfterEach
+    void deleteDataFromDatabase(){
+        System.out.println("After each: " + this + "\n\n");
     }
 
 }
