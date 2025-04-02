@@ -3,6 +3,8 @@ package com.oleksandr.junit.service;
 import com.oleksandr.junit.dto.User;
 import org.junit.jupiter.api.*;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 //@TestInstance(TestInstance.Lifecycle.PER_CLASS) one instance of UserServiceTest for every methods
@@ -34,12 +36,13 @@ public class UserServiceTest {
     void userSizeIfUserAdded() {
 
         System.out.println("Test2: " + this);
-        userService.add(new User());
-        userService.add(new User());
+        userService.add(User.of(1,"Ivan","123"));
+        userService.add(User.of(2,"Olek","111"));
         var users = userService.getAll();
 
         assertEquals(2, users.size());
     }
+
 
     @AfterEach
     void deleteDataFromDatabase(){
