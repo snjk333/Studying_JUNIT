@@ -1,10 +1,12 @@
 package com.oleksandr.junit.service;
 
 import com.oleksandr.junit.dto.User;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 //@TestInstance(TestInstance.Lifecycle.PER_CLASS) one instance of UserServiceTest for every methods
@@ -33,7 +35,8 @@ public class UserServiceTest {
     void usersEmptyIfNoUserAdded() {
         System.out.println("Test1: " + this);
         var users = userService.getAll();
-        assertTrue(users.isEmpty());
+//        assertTrue(users.isEmpty());
+        assertThat(users).isEmpty();
     }
     @Test
     void userSizeIfUserAdded() {
@@ -43,27 +46,36 @@ public class UserServiceTest {
         userService.add(OLEK);
         var users = userService.getAll();
 
-        assertEquals(2, users.size());
+//        assertEquals(2, users.size());
+        assertThat(users).hasSize(2);
     }
     @Test
     void successLoginIfUserExists(){
         userService.add(IVAN);
         Optional<User> maybeUser = userService.login(IVAN.getUsername(), IVAN.getPassword());
-        assertTrue(maybeUser.isPresent());
-        maybeUser.ifPresent(user -> assertEquals(user, IVAN));
+
+//        assertTrue(maybeUser.isPresent());
+        assertThat(maybeUser).isPresent();
+
+        //maybeUser.ifPresent(user -> assertEquals(user, IVAN));
+        maybeUser.ifPresent(user -> assertThat(maybeUser).isEqualTo(Optional.of(IVAN)));
+        //or
+        assertThat(maybeUser).isEqualTo(Optional.of(IVAN));
     }
 
     @Test
     void loginFailedIfPasswordIsNotCorrect(){
         userService.add(IVAN);
         Optional<User> maybeUser = userService.login(IVAN.getUsername(), IVAN.getPassword()+"123");
-        assertTrue(maybeUser.isEmpty());
+//        assertTrue(maybeUser.isEmpty());
+        assertThat(maybeUser).isEmpty();
     }
     @Test
     void loginFailedIfUserDoesNotExist(){
         userService.add(IVAN);
         Optional<User> maybeUser = userService.login(IVAN.getUsername()+"123", IVAN.getPassword());
-        assertTrue(maybeUser.isEmpty());
+//        assertTrue(maybeUser.isEmpty());
+        assertThat(maybeUser).isEmpty();
     }
 
     @AfterEach
