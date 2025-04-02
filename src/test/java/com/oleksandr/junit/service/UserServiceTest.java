@@ -14,6 +14,9 @@ public class UserServiceTest {
 
     private UserService userService;
 
+    private static final User IVAN = User.of(1,"Ivan","123");
+    private static final User OLEK = User.of(2,"Olek","111");
+
     @BeforeAll
     static void init(){
         System.out.println("Before ALL: ");
@@ -36,13 +39,26 @@ public class UserServiceTest {
     void userSizeIfUserAdded() {
 
         System.out.println("Test2: " + this);
-        userService.add(User.of(1,"Ivan","123"));
-        userService.add(User.of(2,"Olek","111"));
+        userService.add(IVAN);
+        userService.add(OLEK);
         var users = userService.getAll();
 
         assertEquals(2, users.size());
     }
+    @Test
+    void successLoginIfUserExists(){
+        userService.add(IVAN);
+        Optional<User> maybeUser = userService.login(IVAN.getUsername(), IVAN.getPassword());
+        assertTrue(maybeUser.isPresent());
+        maybeUser.ifPresent(user -> assertEquals(user, IVAN));
+    }
 
+    @Test
+    void loginFailedIfPasswordIsNotCorrect(){
+        userService.add(IVAN);
+        Optional<User> maybeUser = userService.login(IVAN.getUsername(), IVAN.getPassword()+"123");
+        assertTrue(maybeUser.isEmpty());
+    }
 
     @AfterEach
     void deleteDataFromDatabase(){
