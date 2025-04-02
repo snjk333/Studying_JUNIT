@@ -59,6 +59,12 @@ public class UserServiceTest {
         Optional<User> maybeUser = userService.login(IVAN.getUsername(), IVAN.getPassword()+"123");
         assertTrue(maybeUser.isEmpty());
     }
+    @Test
+    void loginFailedIfUserDoesNotExist(){
+        userService.add(IVAN);
+        Optional<User> maybeUser = userService.login(IVAN.getUsername()+"123", IVAN.getPassword());
+        assertTrue(maybeUser.isEmpty());
+    }
 
     @AfterEach
     void deleteDataFromDatabase(){
