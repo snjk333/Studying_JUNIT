@@ -1,15 +1,22 @@
 package com.oleksandr.junit.service;
 
 import com.oleksandr.junit.dto.User;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+//@TestInstance(TestInstance.Lifecycle.PER_CLASS) one instance of UserServiceTest for every methods
+@TestInstance(TestInstance.Lifecycle.PER_METHOD) // default, one instance for one method
 
 class UserServiceTest {
 
     private UserService userService;
+
+    @BeforeAll
+    static void init(){
+        System.out.println("Before ALL: ");
+    }
+
 
     @BeforeEach
     void prepare(){
@@ -37,6 +44,11 @@ class UserServiceTest {
     @AfterEach
     void deleteDataFromDatabase(){
         System.out.println("After each: " + this + "\n\n");
+    }
+
+    @AfterAll
+    static void end(){
+        System.out.println("After ALL: ");
     }
 
 }
