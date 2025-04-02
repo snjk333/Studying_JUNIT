@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 //@TestInstance(TestInstance.Lifecycle.PER_CLASS) one instance of UserServiceTest for every methods
 @TestInstance(TestInstance.Lifecycle.PER_METHOD) // default, one instance for one method
 
-class UserServiceTest {
+public class UserServiceTest {
 
     private UserService userService;
 
