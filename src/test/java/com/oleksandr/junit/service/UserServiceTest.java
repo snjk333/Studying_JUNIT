@@ -86,6 +86,17 @@ public class UserServiceTest {
     }
 
     @Test
+    void throwExceptionIfUsernameOrPasswordIsNull(){
+
+       var exeption = assertThrows(IllegalArgumentException.class, () -> userService.login(null, "123"));
+        assertThat(exeption.getMessage()).isEqualTo("Username or Password is null");
+        assertThrows(IllegalArgumentException.class, () -> userService.login("user", null));
+
+    }
+
+
+
+    @Test
     void usersConvertedToMapById(){
         userService.addAll(IVAN,OLEK);
         Map<Integer, User> userMap = userService.getAllConvertedById();
