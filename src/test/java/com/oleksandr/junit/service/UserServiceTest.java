@@ -4,6 +4,7 @@ import com.oleksandr.junit.dto.User;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,6 +51,12 @@ public class UserServiceTest {
         assertThat(users).hasSize(2);
     }
     @Test
+    void addAllUsers(){
+        userService.addAll(IVAN,OLEK);
+        var users = userService.getAll();
+        assertThat(users).hasSize(2);
+    }
+    @Test
     void successLoginIfUserExists(){
         userService.add(IVAN);
         Optional<User> maybeUser = userService.login(IVAN.getUsername(), IVAN.getPassword());
@@ -76,6 +83,20 @@ public class UserServiceTest {
         Optional<User> maybeUser = userService.login(IVAN.getUsername()+"123", IVAN.getPassword());
 //        assertTrue(maybeUser.isEmpty());
         assertThat(maybeUser).isEmpty();
+    }
+
+    @Test
+    void usersConvertedToMapById(){
+        userService.addAll(IVAN,OLEK);
+        Map<Integer, User> userMap = userService.getAllConvertedById();
+
+        assertAll(
+                () ->
+                assertThat(userMap).containsKeys(IVAN.getId(), OLEK.getId()),
+                () ->
+                assertThat(userMap).containsValues(IVAN, OLEK)
+        );
+
     }
 
     @AfterEach
