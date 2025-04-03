@@ -73,47 +73,7 @@ public class UserServiceTest {
         var users = userService.getAll();
         assertThat(users).hasSize(2);
     }
-    @Test
-    @Tag("login")
-    void successLoginIfUserExists(){
-        userService.add(IVAN);
-        Optional<User> maybeUser = userService.login(IVAN.getUsername(), IVAN.getPassword());
 
-//        assertTrue(maybeUser.isPresent());
-        assertThat(maybeUser).isPresent();
-
-        //maybeUser.ifPresent(user -> assertEquals(user, IVAN));
-        maybeUser.ifPresent(user -> assertThat(maybeUser).isEqualTo(Optional.of(IVAN)));
-        //or
-        assertThat(maybeUser).isEqualTo(Optional.of(IVAN));
-    }
-
-    @Test
-    @Tag("login")
-    void loginFailedIfPasswordIsNotCorrect(){
-        userService.add(IVAN);
-        Optional<User> maybeUser = userService.login(IVAN.getUsername(), IVAN.getPassword()+"123");
-//        assertTrue(maybeUser.isEmpty());
-        assertThat(maybeUser).isEmpty();
-    }
-    @Test
-    @Tag("login")
-    void loginFailedIfUserDoesNotExist(){
-        userService.add(IVAN);
-        Optional<User> maybeUser = userService.login(IVAN.getUsername()+"123", IVAN.getPassword());
-//        assertTrue(maybeUser.isEmpty());
-        assertThat(maybeUser).isEmpty();
-    }
-
-    @Test
-    @Tag("login")
-    void throwExceptionIfUsernameOrPasswordIsNull(){
-
-       var exeption = assertThrows(IllegalArgumentException.class, () -> userService.login(null, "123"));
-        assertThat(exeption.getMessage()).isEqualTo("Username or Password is null");
-        assertThrows(IllegalArgumentException.class, () -> userService.login("user", null));
-
-    }
 
 
 
@@ -142,6 +102,49 @@ public class UserServiceTest {
     }
 
 
+    @Nested
+    class LoginTest{
+        @Test
+        @Tag("login")
+        void successLoginIfUserExists(){
+            userService.add(IVAN);
+            Optional<User> maybeUser = userService.login(IVAN.getUsername(), IVAN.getPassword());
 
+//        assertTrue(maybeUser.isPresent());
+            assertThat(maybeUser).isPresent();
+
+            //maybeUser.ifPresent(user -> assertEquals(user, IVAN));
+            maybeUser.ifPresent(user -> assertThat(maybeUser).isEqualTo(Optional.of(IVAN)));
+            //or
+            assertThat(maybeUser).isEqualTo(Optional.of(IVAN));
+        }
+
+        @Test
+        @Tag("login")
+        void loginFailedIfPasswordIsNotCorrect(){
+            userService.add(IVAN);
+            Optional<User> maybeUser = userService.login(IVAN.getUsername(), IVAN.getPassword()+"123");
+//        assertTrue(maybeUser.isEmpty());
+            assertThat(maybeUser).isEmpty();
+        }
+        @Test
+        @Tag("login")
+        void loginFailedIfUserDoesNotExist(){
+            userService.add(IVAN);
+            Optional<User> maybeUser = userService.login(IVAN.getUsername()+"123", IVAN.getPassword());
+//        assertTrue(maybeUser.isEmpty());
+            assertThat(maybeUser).isEmpty();
+        }
+
+        @Test
+        @Tag("login")
+        void throwExceptionIfUsernameOrPasswordIsNull(){
+
+            var exeption = assertThrows(IllegalArgumentException.class, () -> userService.login(null, "123"));
+            assertThat(exeption.getMessage()).isEqualTo("Username or Password is null");
+            assertThrows(IllegalArgumentException.class, () -> userService.login("user", null));
+
+        }
+    }
 
 }
