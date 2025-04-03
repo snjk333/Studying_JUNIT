@@ -3,6 +3,7 @@ package com.oleksandr.junit;
 import com.oleksandr.junit.service.UserServiceTest;
 import org.junit.platform.engine.discovery.DiscoverySelectors;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
+import org.junit.platform.launcher.TagFilter;
 import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
 import org.junit.platform.launcher.core.LauncherFactory;
 import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
@@ -25,6 +26,10 @@ public class TestLauncher {
                         .request()
                         .selectors(DiscoverySelectors.selectClass(UserServiceTest.class))
                         .selectors(DiscoverySelectors.selectPackage("com.oleksandr.junit"))
+                        .filters(
+                                TagFilter.includeTags("login")
+//                                TagFilter.excludeTags("login")
+                        )
                         .build();
         launcher.execute(discoveryRequest,summaryGeneratingListener);
 

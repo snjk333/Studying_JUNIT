@@ -12,7 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 //@TestInstance(TestInstance.Lifecycle.PER_CLASS) one instance of UserServiceTest for every methods
 @TestInstance(TestInstance.Lifecycle.PER_METHOD) // default, one instance for one method
+@Tag("fast")
+@Tag("user")
 
+//we can use maven to run with tags:
+// mvn clean test -Dgroups=login  -> include
+// mvc clean test -DexcludedGroups=login -> exclude
 public class UserServiceTest {
 
     private UserService userService;
@@ -57,6 +62,7 @@ public class UserServiceTest {
         assertThat(users).hasSize(2);
     }
     @Test
+    @Tag("login")
     void successLoginIfUserExists(){
         userService.add(IVAN);
         Optional<User> maybeUser = userService.login(IVAN.getUsername(), IVAN.getPassword());
@@ -71,6 +77,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @Tag("login")
     void loginFailedIfPasswordIsNotCorrect(){
         userService.add(IVAN);
         Optional<User> maybeUser = userService.login(IVAN.getUsername(), IVAN.getPassword()+"123");
@@ -78,6 +85,7 @@ public class UserServiceTest {
         assertThat(maybeUser).isEmpty();
     }
     @Test
+    @Tag("login")
     void loginFailedIfUserDoesNotExist(){
         userService.add(IVAN);
         Optional<User> maybeUser = userService.login(IVAN.getUsername()+"123", IVAN.getPassword());
@@ -86,6 +94,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @Tag("login")
     void throwExceptionIfUsernameOrPasswordIsNull(){
 
        var exeption = assertThrows(IllegalArgumentException.class, () -> userService.login(null, "123"));
