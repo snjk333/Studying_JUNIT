@@ -12,8 +12,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 //@TestInstance(TestInstance.Lifecycle.PER_CLASS) one instance of UserServiceTest for every methods
 @TestInstance(TestInstance.Lifecycle.PER_METHOD) // default, one instance for one method
+
 @Tag("fast")
 @Tag("user")
+
+//@TestMethodOrder(MethodOrderer.Random.class) //random order for tests
+//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+// if we use @Order(INT) Annotation to methods to make an order
+//@TestMethodOrder(MethodOrderer.MethodName.class) //order by alphabetic names of methods
+
+//WARNING: CHAIN ANTIPATTERN!!!
+
+// we can use for naming, but.. tests should have names with information by default xD
+//@TestMethodOrder(MethodOrderer.DisplayName.class) used in pair with annotation
+// @DisplayName("STRING") to write a name for tests
 
 //we can use maven to run with tags:
 // mvn clean test -Dgroups=login  -> include
@@ -128,5 +140,8 @@ public class UserServiceTest {
     static void end(){
         System.out.println("After ALL: ");
     }
+
+
+
 
 }
