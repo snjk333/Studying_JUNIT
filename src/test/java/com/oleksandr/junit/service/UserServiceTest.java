@@ -34,6 +34,10 @@ public class UserServiceTest {
 
     private UserService userService;
 
+    public UserServiceTest(TestInfo testInfo) {
+        System.out.println("contractor");
+    }
+
     private static final User IVAN = User.of(1,"Ivan","123");
     private static final User OLEK = User.of(2,"Olek","111");
 
