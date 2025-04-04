@@ -5,9 +5,12 @@ import com.oleksandr.junit.paramresolver.UserServiceParamResolver;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.*;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -155,6 +158,47 @@ public class UserServiceTest {
             assertThrows(IllegalArgumentException.class, () -> userService.login("user", null));
 
         }
+
+
+
+        //    @ArgumentsSource(UserServiceParamResolver.class)
+
+        //    @EmptySource
+        //    @NullSource  works with 1  param   variants
+        //    @NullAndEmptySource
+
+        //    @ValueSource(
+        //            strings = {"Ivan", "Petr"}
+        //    )
+        @ParameterizedTest
+        @MethodSource("com.oleksandr.junit.service.UserServiceTest#getArgumentsForLoginTest")
+        void loginParametrizedTestWithMethodSource(String username, String password, Optional<User> user){
+            userService.add(IVAN);
+            userService.add(OLEK);
+            var maybeUser = userService.login(username, password);
+            assertThat(maybeUser).isEqualTo(user);
+        }
+        @ParameterizedTest
+        @CsvFileSource(resources = "/our-users.csv", delimiter = ',', numLinesToSkip = 1)
+        @CsvSource({
+                "Ivan,123",
+                "Olek,111"
+        })
+        void loginParametrizedTestWithCSVSource(String username, String password){
+            userService.add(IVAN);
+            userService.add(OLEK);
+            var maybeUser = userService.login(username, password);
+            assertThat(maybeUser).isNotNull();
+        }
+    }
+    static Stream<Arguments> getArgumentsForLoginTest(){
+        return Stream.of(
+
+                Arguments.of(IVAN.getUsername(), IVAN.getPassword(), Optional.of(IVAN)),
+                Arguments.of(OLEK.getUsername(), OLEK.getPassword(), Optional.of(OLEK)),
+                Arguments.of(OLEK.getUsername()+"123", OLEK.getPassword(), Optional.empty()),
+                Arguments.of(OLEK.getUsername(), OLEK.getPassword()+"123", Optional.empty())
+        );
     }
 
 }
