@@ -1,8 +1,10 @@
 package com.oleksandr.junit.service;
 
 import com.oleksandr.junit.dto.User;
+import com.oleksandr.junit.paramresolver.UserServiceParamResolver;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.Map;
 import java.util.Optional;
@@ -30,6 +32,10 @@ import static org.junit.jupiter.api.Assertions.*;
 //we can use maven to run with tags:
 // mvn clean test -Dgroups=login  -> include
 // mvc clean test -DexcludedGroups=login -> exclude
+
+@ExtendWith({
+        UserServiceParamResolver.class
+})
 public class UserServiceTest {
 
     private UserService userService;
@@ -48,9 +54,9 @@ public class UserServiceTest {
 
 
     @BeforeEach
-    void prepare(){
+    void prepare(UserService service){
         System.out.println("Before each: " + this);
-        userService = new UserService();
+        userService = service;
     }
 
     @Test
