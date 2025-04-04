@@ -117,7 +117,7 @@ public class UserServiceTest {
 
     @Nested
     class LoginTest{
-        @Test
+        @RepeatedTest(3)
         @Tag("login")
         void successLoginIfUserExists(){
             userService.add(IVAN);
