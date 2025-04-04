@@ -8,8 +8,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
 
+import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -157,6 +159,14 @@ public class UserServiceTest {
             assertThat(exeption.getMessage()).isEqualTo("Username or Password is null");
             assertThrows(IllegalArgumentException.class, () -> userService.login("user", null));
 
+        }
+
+        @Test
+        //@Timeout( value = 200, unit = TimeUnit.MILLISECONDS)
+        void checkLoginPerformance(){
+            var res = assertTimeout(Duration.ofMillis(200L),() ->{
+                return userService.login("123","123");
+            });
         }
 
 
