@@ -10,10 +10,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Duration;
@@ -54,6 +51,9 @@ import static org.junit.jupiter.api.Assertions.*;
 })
 
 public class UserServiceTest {
+
+    @Captor
+    private ArgumentCaptor<Integer> captor;
 
     @Mock
     private UserDao userDao;
@@ -98,10 +98,10 @@ public class UserServiceTest {
 //        Mockito.verify(userDao, Mockito.times(1)).delete(IVAN.getId());
         // check that method "delete" used N times
 
-        var argCaptor = ArgumentCaptor.forClass(Integer.class);
-        Mockito.verify(userDao, Mockito.times(1)).delete(argCaptor.capture());
+//        var argCaptor = ArgumentCaptor.forClass(Integer.class);
+        Mockito.verify(userDao, Mockito.times(1)).delete(captor.capture());
         //we assert that our inner method use IVAN.getId() integer value
-        assertThat(argCaptor.getValue()).isEqualTo(IVAN.getId());
+        assertThat(captor.getValue()).isEqualTo(IVAN.getId());
 
         assertThat(result).isTrue();
     }
