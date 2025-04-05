@@ -1,8 +1,10 @@
 package com.oleksandr.junit.service;
 
 import com.oleksandr.junit.dto.User;
-import com.oleksandr.junit.paramresolver.UserServiceParamResolver;
-import org.assertj.core.api.Assertions;
+import com.oleksandr.junit.extension.ConditionalExtension;
+import com.oleksandr.junit.extension.GlobalExtension;
+import com.oleksandr.junit.extension.ThrowableExeption;
+import com.oleksandr.junit.extension.UserServiceParamResolver;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,7 +13,6 @@ import org.junit.jupiter.params.provider.*;
 import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,7 +40,10 @@ import static org.junit.jupiter.api.Assertions.*;
 // mvc clean test -DexcludedGroups=login -> exclude
 
 @ExtendWith({
-        UserServiceParamResolver.class
+        UserServiceParamResolver.class,
+        GlobalExtension.class,
+        ConditionalExtension.class,
+        ThrowableExeption.class
 })
 public class UserServiceTest {
 

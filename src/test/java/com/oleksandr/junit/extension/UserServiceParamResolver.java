@@ -1,6 +1,5 @@
-package com.oleksandr.junit.paramresolver;
+package com.oleksandr.junit.extension;
 
-import com.oleksandr.junit.dto.User;
 import com.oleksandr.junit.service.UserService;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
