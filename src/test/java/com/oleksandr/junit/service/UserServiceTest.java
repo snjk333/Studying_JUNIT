@@ -14,6 +14,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Duration;
 import java.util.Map;
@@ -48,8 +49,10 @@ import static org.junit.jupiter.api.Assertions.*;
         UserServiceParamResolver.class,
         GlobalExtension.class,
         ConditionalExtension.class,
+        MockitoExtension.class,
 //        ThrowableExeption.class
 })
+
 public class UserServiceTest {
 
     @Mock
