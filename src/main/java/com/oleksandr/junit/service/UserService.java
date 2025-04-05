@@ -1,5 +1,6 @@
 package com.oleksandr.junit.service;
 
+import com.oleksandr.junit.dao.UserDao;
 import com.oleksandr.junit.dto.User;
 
 import java.util.*;
@@ -10,6 +11,15 @@ import static java.util.stream.Collectors.toMap;
 public class UserService {
 
     private final List<User> users = new ArrayList<>();
+    private final UserDao userDao;
+
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    public boolean deleteUser(int id){
+        return userDao.delete(id);
+    }
 
     public List<User> getAll(){
         return users;

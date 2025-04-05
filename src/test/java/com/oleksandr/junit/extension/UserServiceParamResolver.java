@@ -1,5 +1,6 @@
 package com.oleksandr.junit.extension;
 
+import com.oleksandr.junit.dao.UserDao;
 import com.oleksandr.junit.service.UserService;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
@@ -17,6 +18,6 @@ public class UserServiceParamResolver implements ParameterResolver {
 //        var store = extensionContext.getStore(ExtensionContext.Namespace.create(UserService.class));
 //        return store.getOrComputeIfAbsent(UserService.class, it -> new UserService());
         var store = extensionContext.getStore(ExtensionContext.Namespace.create(extensionContext.getTestMethod()));
-          return store.getOrComputeIfAbsent(UserService.class, it -> new UserService());
+          return store.getOrComputeIfAbsent(UserService.class, it -> new UserService(new UserDao()));
     }
 }
