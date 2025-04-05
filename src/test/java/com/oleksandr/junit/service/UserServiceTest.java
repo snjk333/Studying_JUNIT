@@ -11,6 +11,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.time.Duration;
@@ -50,8 +52,10 @@ import static org.junit.jupiter.api.Assertions.*;
 })
 public class UserServiceTest {
 
+    @Mock
     private UserDao userDao;
 
+    @InjectMocks
     private UserService userService;
 
     public UserServiceTest(TestInfo testInfo) {
@@ -72,10 +76,10 @@ public class UserServiceTest {
     @BeforeEach
     void prepare(UserService service){
         System.out.println("Before each: " + this);
-//        userService = service;
-//          this.userDao = Mockito.mock(UserDao.class);
-            this.userDao = Mockito.spy(new UserDao());
-          userService = new UserService(userDao);
+////        userService = service;
+////          this.userDao = Mockito.mock(UserDao.class);
+//            this.userDao = Mockito.spy(new UserDao()); changed it used @Mock @InjectMocks
+//          userService = new UserService(userDao);
     }
 
 
