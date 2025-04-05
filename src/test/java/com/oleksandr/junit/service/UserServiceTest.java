@@ -79,11 +79,20 @@ public class UserServiceTest {
     @BeforeEach
     void prepare(UserService service){
         System.out.println("Before each: " + this);
+
 ////        userService = service;
 ////          this.userDao = Mockito.mock(UserDao.class);
 //            this.userDao = Mockito.spy(new UserDao()); changed it used @Mock @InjectMocks
 //          userService = new UserService(userDao);
     }
+
+
+    @Test
+    void throwExceptionIfDataBaseIsNotAvailable(){
+        Mockito.doThrow(RuntimeException.class).when(userDao).delete(IVAN.getId());
+        assertThrows(RuntimeException.class, () -> userService.deleteUser(IVAN.getId()) );
+    }
+
 
 
     @Test
